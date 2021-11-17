@@ -1,8 +1,8 @@
 locals {
-  name        = "ecs-cluster"
-  environment = "dev"
-  region = "sa-east-1"
-  image_tag = "test"
+  name         = "ecs-cluster"
+  environment  = "dev"
+  region       = "sa-east-1"
+  image_tag    = "test"
   cluster_name = "demo"
 
   ec2_resources_name = "${local.name}-${local.environment}"
@@ -21,10 +21,10 @@ module "vpc" {
 
   cidr = "10.100.0.0/16"
 
-  azs             = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
-  private_subnets = ["10.100.1.0/24", "10.100.2.0/24"]
-  public_subnets  = ["10.100.3.0/24", "10.100.4.0/24"]
-  database_subnets = ["10.100.5.0/24", "10.100.6.0/24"] 
+  azs              = [data.aws_availability_zones.available.names[0], data.aws_availability_zones.available.names[1]]
+  private_subnets  = ["10.100.1.0/24", "10.100.2.0/24"]
+  public_subnets   = ["10.100.3.0/24", "10.100.4.0/24"]
+  database_subnets = ["10.100.5.0/24", "10.100.6.0/24"]
 
   enable_nat_gateway = true
 
@@ -51,13 +51,13 @@ provider "kubernetes" {
 }
 
 module "eks" {
-  source          = "terraform-aws-modules/eks/aws"
+  source = "terraform-aws-modules/eks/aws"
 
   cluster_version = "1.21"
   cluster_name    = local.cluster_name
   vpc_id          = module.vpc.vpc_id
   subnets         = module.vpc.private_subnets
-  
+
   worker_groups = [
     {
       name                          = "small-pool"

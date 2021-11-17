@@ -16,8 +16,8 @@ resource "random_password" "password" {
 module "security_group_db" {
   source  = "terraform-aws-modules/security-group/aws"
   version = "4.4.0"
-  
-  name = "db-sg"
+
+  name   = "db-sg"
   vpc_id = module.vpc.vpc_id
 
   computed_ingress_with_source_security_group_id = [
@@ -33,7 +33,7 @@ module "security_group_db" {
     }
   ]
 
-   egress_cidr_blocks = ["0.0.0.0/0"]
+  egress_cidr_blocks = ["0.0.0.0/0"]
 }
 
 
@@ -47,14 +47,14 @@ resource "aws_secretsmanager_secret" "parrot_db_secret" {
 
 
 resource "aws_secretsmanager_secret_version" "parrot_db_secret_version" {
-  secret_id     = aws_secretsmanager_secret.parrot_db_secret.id
+  secret_id = aws_secretsmanager_secret.parrot_db_secret.id
   secret_string = jsonencode({
-    POSTGRES_DB = module.db.db_instance_name
-    POSTGRES_USER = module.db.db_instance_username
+    POSTGRES_DB       = module.db.db_instance_name
+    POSTGRES_USER     = module.db.db_instance_username
     POSTGRES_PASSWORD = module.db.db_master_password
-    POSTGRES_HOST = module.db.db_instance_endpoint
-    POSTGRES_PORT = module.db.db_instance_port
-    APP_VERSION = "0.1.0"
+    POSTGRES_HOST     = module.db.db_instance_endpoint
+    POSTGRES_PORT     = module.db.db_instance_port
+    APP_VERSION       = "0.1.0"
   })
 }
 

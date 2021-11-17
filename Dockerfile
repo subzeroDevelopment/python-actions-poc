@@ -4,7 +4,7 @@ FROM python:3
 ARG secret_id=parrot_db_secret
 ARG aws_region=sa-east-1
 
-ENV AWS_SECRET_ID=$buildtime_variable
+ENV AWS_SECRET_ID=$secret_id
 ENV AWS_REGION=$aws_region
 
 ENV PYTHONUNBUFFERED=1
