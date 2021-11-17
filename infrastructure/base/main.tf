@@ -69,12 +69,9 @@ module "eks" {
 }
 
 
-resource "random_pet" "repo_name" {
-  length = 1
-}
 
 resource "aws_ecr_repository" "ecr_repo" {
-  name                 = random_pet.repo_name.id
+  name                 = "django-api"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {

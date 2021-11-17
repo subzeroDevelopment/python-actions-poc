@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - '!infrastructure/base/**'
 jobs:
   Build-image:
     runs-on: ubuntu-latest
@@ -23,14 +25,23 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: my-ecr-repo
+          ECR_REPOSITORY: django-api
           IMAGE_TAG: ${{ github.sha }}
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker info
-      # - name: Build and push
-      #   id: docker_build
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     # push: true
-      #     tags: user/app:latest
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Run Kubernetes tools
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: django-api
+          IMAGE_TAG: ${{ github.sha }}
+        uses: stefanprodan/kube-tools@v1
+        with:
+          kubectl: 1.21.0
+          kustomize: 4.4.1
+          command: |
+            cd ./kubernetes/manifests && kustomize edit set image alpine=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            kustomize build ./kubernetes/manifests
+            cat ./kubernetes/manifests/deployment.yaml
+
+            
