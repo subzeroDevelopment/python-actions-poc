@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: django-api
+  namespace: development
 spec:
   selector:
     matchLabels:
@@ -18,5 +19,8 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "500m"
+        env:
+          - name: AWS_SECRET_ID
+            value: mosquito
         ports:
         - containerPort: 8000
