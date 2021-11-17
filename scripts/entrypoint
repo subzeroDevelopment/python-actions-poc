@@ -10,6 +10,7 @@ if [ -z ${DEV+x} ] && [ -n "$AWS_SECRET_ID" ]
 then
     aws secretsmanager --region ${AWS_REGION} get-secret-value --secret-id ${AWS_SECRET_ID} --query SecretString --output text | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' > /tmp/secrets.env
     eval $(cat /tmp/secrets.env | sed 's/^/export /')
+    cat /tmp/secrets.env
     rm -f /tmp/secrets.env
 fi
 

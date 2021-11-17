@@ -1,17 +1,14 @@
 # syntax=docker/dockerfile:1
-FROM python:3
-
-ARG secret_id=parrot_db_secret
-ARG aws_region=sa-east-1
-
-ENV AWS_SECRET_ID=$secret_id
-ENV AWS_REGION=$aws_region
+FROM python:3.9.9-slim-buster
 
 ENV PYTHONUNBUFFERED=1
 
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+RUN apt-get update && \
+    apt-get install -y jq unzip curl && \
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
     unzip awscliv2.zip && \
     ./aws/install
+    
 
 WORKDIR /code
 COPY requirements.txt /code/

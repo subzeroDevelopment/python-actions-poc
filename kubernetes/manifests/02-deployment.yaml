@@ -22,5 +22,7 @@ spec:
         env:
           - name: AWS_SECRET_ID
             value: krill
+          - name: AWS_REGION
+            value: sa-east-1
         ports:
         - containerPort: 8000
