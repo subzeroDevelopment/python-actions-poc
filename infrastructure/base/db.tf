@@ -52,7 +52,7 @@ resource "aws_secretsmanager_secret_version" "parrot_db_secret_version" {
     POSTGRES_DB       = module.db.db_instance_name
     POSTGRES_USER     = module.db.db_instance_username
     POSTGRES_PASSWORD = module.db.db_master_password
-    POSTGRES_HOST     = module.db.db_instance_endpoint
+    POSTGRES_HOST     = split(":",module.db.db_instance_endpoint)[0]
     POSTGRES_PORT     = module.db.db_instance_port
     APP_VERSION       = "0.1.0"
   })
