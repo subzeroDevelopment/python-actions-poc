@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
       - name: django-api
-        image: alpine:1.29.0
+        image: busybox:1.29.0
         resources:
           limits:
             memory: "128Mi"

@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
 - deployment.yaml
 images:
-- name: alpine
+- name: busybox
   newName: alpine
   newTag: "3.6"

@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - '!infrastructure/base/**'
 jobs:
   Build-image:
     runs-on: ubuntu-latest
@@ -40,8 +38,9 @@ jobs:
           kubectl: 1.21.0
           kustomize: 4.4.1
           command: |
-            cd ./kubernetes/manifests && kustomize edit set image alpine=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            kustomize build ./kubernetes/manifests
-            cat ./kubernetes/manifests/deployment.yaml
+            cd ./kubernetes/manifests
+            kustomize edit set image busybox=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+            kustomize build .
+            cat deployment.yaml
 
             
