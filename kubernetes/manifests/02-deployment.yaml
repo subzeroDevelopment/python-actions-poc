@@ -21,6 +21,6 @@ spec:
             cpu: "500m"
         env:
           - name: AWS_SECRET_ID
-            value: mosquito
+            value: krill
         ports:
         - containerPort: 8000

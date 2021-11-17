@@ -4,6 +4,7 @@ locals {
   region       = "sa-east-1"
   image_tag    = "test"
   cluster_name = "demo"
+  nodes_role = "k8s_nodes_role"
 
   ec2_resources_name = "${local.name}-${local.environment}"
 }
@@ -57,6 +58,7 @@ module "eks" {
   cluster_name    = local.cluster_name
   vpc_id          = module.vpc.vpc_id
   subnets         = module.vpc.private_subnets
+  workers_role_name = local.nodes_role
 
   worker_groups = [
     {
