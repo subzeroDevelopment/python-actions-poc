@@ -21,7 +21,7 @@ spec:
             cpu: "500m"
         env:
           - name: AWS_SECRET_ID
-            value: krill
+            value: fowl
           - name: AWS_REGION
             value: sa-east-1
         ports:
